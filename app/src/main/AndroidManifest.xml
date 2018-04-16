@@ -28,6 +28,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.aj.chess_android.MainActivity" />
         </activity>
+        <activity
+            android:name=".ListSavedGames"
+            android:label="@string/title_activity_list_saved_games"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.aj.chess_android.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
