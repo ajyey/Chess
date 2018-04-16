@@ -83,7 +83,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.savedGames) {
-            System.out.println("savedGames clicked");
+            //handle redirecting to the saved games activity
+            Intent listSavedGamesPage = new Intent(MainActivity.this, ListSavedGames.class);
+            startActivity(listSavedGamesPage);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

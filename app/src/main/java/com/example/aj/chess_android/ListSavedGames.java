@@ -15,6 +15,7 @@ public class ListSavedGames extends AppCompatActivity {
         setContentView(R.layout.activity_list_saved_games);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle("Your Saved Games");
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
