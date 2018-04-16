@@ -18,7 +18,7 @@
         android:layout_marginTop="63dp">
 
         <TableRow
-            android:id="@+id/8"
+            android:id="@+id/row8"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -81,7 +81,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/7"
+            android:id="@+id/row7"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -144,7 +144,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/6"
+            android:id="@+id/row6"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -198,7 +198,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/5"
+            android:id="@+id/row5"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -252,7 +252,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/4"
+            android:id="@+id/row4"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -306,7 +306,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/3"
+            android:id="@+id/row3"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -360,7 +360,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/2"
+            android:id="@+id/row2"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -422,7 +422,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/1"
+            android:id="@+id/row1"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
