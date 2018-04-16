@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class NewGameActivity extends AppCompatActivity {
 
@@ -33,6 +34,10 @@ public class NewGameActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+        boolean isWhitesTurn = true;
+        TextView currentTurn = (TextView) findViewById(R.id.currentTurn);
+        currentTurn.setText("White");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -76,7 +81,5 @@ public class NewGameActivity extends AppCompatActivity {
         }
         return false;
     }
-    //handle the back button to make sure that the user wants to go back
-    //pressing the back button will not save the currently running game
 
 }
