@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 public class NewGameActivity extends AppCompatActivity {
@@ -37,6 +40,21 @@ public class NewGameActivity extends AppCompatActivity {
         boolean isWhitesTurn = true;
         TextView currentTurn = (TextView) findViewById(R.id.currentTurn);
         currentTurn.setText("White");
+        TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
+        //gets the first table row
+        View view = table.getChildAt(0);
+        if(view instanceof TableRow){
+            TableRow row = (TableRow) view;
+            ImageView img = (ImageView)row.getChildAt(0);
+            System.out.println(img.getResources().getResourceName(img.getId()));
+
+            //we can use the following line to update the board's square when we are moving pieces around
+//            img.setImageResource(R.drawable.black_knight);
+
+            //we can use the following line to empty a square in the UI
+//            img.setImageDrawable(null);
+
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

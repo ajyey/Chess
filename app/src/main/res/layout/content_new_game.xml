@@ -431,7 +431,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="#cf8b50"
-                app:srcCompat="@drawable/white_rook" />
+                app:srcCompat="@drawable/white_rook"
+                tools:tag="whiteRook" />
 
             <ImageView
                 android:id="@+id/b1"
