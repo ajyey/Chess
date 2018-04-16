@@ -28,15 +28,8 @@ public class NewGameActivity extends AppCompatActivity {
         //handle the back button to make sure that the user wants to go back
         //pressing the back button will not save the currently running game
 
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        //TODO;
+            //add listeners to each image view to listen for a click so we know when the user is trying to move a piece
         boolean isWhitesTurn = true;
         TextView currentTurn = (TextView) findViewById(R.id.currentTurn);
         currentTurn.setText("White");
@@ -45,6 +38,7 @@ public class NewGameActivity extends AppCompatActivity {
         View view = table.getChildAt(0);
         if(view instanceof TableRow){
             TableRow row = (TableRow) view;
+            //gets the first square in the row
             ImageView img = (ImageView)row.getChildAt(0);
             System.out.println(img.getResources().getResourceName(img.getId()));
 
