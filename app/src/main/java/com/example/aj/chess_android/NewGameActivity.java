@@ -38,10 +38,12 @@ public class NewGameActivity extends AppCompatActivity {
 
         //set isWhitesTurn to be true at the start of the game
         boolean isWhitesTurn = true;
+
         //set the current turn text to reflect the current turn
-        TextView currentTurn = (TextView) findViewById(R.id.currentTurn);
-        currentTurn.setText("White");
+        setTurn(isWhitesTurn);
+        //set the listeners for each imageview in the chess board
         TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
+        setListenersForTable(table);
         //gets the first table row
         View view = table.getChildAt(0);
         if(view instanceof TableRow){
@@ -65,7 +67,7 @@ public class NewGameActivity extends AppCompatActivity {
      * Attaches listeners for a user's clicks for each Square on the chess board
      * @param layout Passed in TableLayout that refers to the chess board
      */
-    public void createListenersForTable(TableLayout layout){
+    public void setListenersForTable(TableLayout layout){
         for(int i = 0; i < 8; i++){
             TableRow row = (TableRow)layout.getChildAt(i);
             for(int j = 0;j < 8;j++){
@@ -84,7 +86,20 @@ public class NewGameActivity extends AppCompatActivity {
     //TODO:
     public void handleUserClick(View v){
         //check whether the click is a source click or a destination click
+        System.out.println("Handle user click function connected");
+    }
 
+    /**
+     * Changes the turn that appears to the user
+     * @param isWhitesTurn Boolean representing if it is white's turn or not
+     */
+    public void setTurn(boolean isWhitesTurn){
+        TextView currentTurn = (TextView) findViewById(R.id.currentTurn);
+        if(!isWhitesTurn){
+            currentTurn.setText("Black");
+        }else{
+            currentTurn.setText("White");
+        }
     }
     @Override
     public void onBackPressed() {
