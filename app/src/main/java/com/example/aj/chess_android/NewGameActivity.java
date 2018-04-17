@@ -14,11 +14,33 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.sql.SQLOutput;
 
 public class NewGameActivity extends AppCompatActivity {
 
     private ImageView sourceClick = null;
+
+    public ImageView getSourceClick() {
+        return sourceClick;
+    }
+
+    public void setSourceClick(ImageView sourceClick) {
+        this.sourceClick = sourceClick;
+    }
+
+    public ImageView getDestinationClick() {
+        return destinationClick;
+    }
+
+    public void setDestinationClick(ImageView destinationClick) {
+        this.destinationClick = destinationClick;
+    }
+
     private ImageView destinationClick = null;
+
+    private Board game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +54,17 @@ public class NewGameActivity extends AppCompatActivity {
         //pressing the back button will not save the currently running game
 
         //TODO;
-            //add listeners to each image view to listen for a click so we know when the user is trying to move a piece
-            //create a method to update the current turn textview
             //create a representation of the board that we can use as a model for the game
 
-        //set isWhitesTurn to be true at the start of the game
-        boolean isWhitesTurn = true;
-
+        //create model for the game
+        game = new Board();
+        game.setWhitesTurn(true);
         //set the current turn text to reflect the current turn
-        setTurn(isWhitesTurn);
+        setTurn(game.isWhitesTurn());
         //set the listeners for each imageview in the chess board
         TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
         setListenersForTable(table);
+
         //gets the first table row
         View view = table.getChildAt(0);
         if(view instanceof TableRow){
@@ -86,7 +107,37 @@ public class NewGameActivity extends AppCompatActivity {
     //TODO:
     public void handleUserClick(View v){
         //check whether the click is a source click or a destination click
-        System.out.println("Handle user click function connected");
+        //get the spot that was clicked
+        TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
+        //get the clicked row
+        TableRow tableRow = (TableRow)v.getParent();
+
+
+        //the user is clicking what piece he wants to move
+        if(getSourceClick()==null){
+            //this is a source click
+            //check if the user is trying to move a piece that isnt h
+            int row = table.indexOfChild(tableRow);
+            int col = tableRow.indexOfChild(v);
+
+            //check if the user clicked an empty square
+            if(game.getBoard()[row][col].getPiece()==null){
+                //set both source and destination to null
+                setSourceClick(null);
+                setDestinationClick(null);
+            }
+            //check that that user is trying to move his own piece
+            if(!(movingOwnPiece(row, col))){
+                Toast.makeText(NewGameActivity.this, "That is not your piece!",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }else{ //the user is clicking the destination
+            //the click is a destination click
+
+
+            
+        }
     }
 
     /**
@@ -100,6 +151,18 @@ public class NewGameActivity extends AppCompatActivity {
         }else{
             currentTurn.setText("White");
         }
+    }
+    public boolean movingOwnPiece(int row, int col){
+        if(game.getBoard()[row][col].getPiece().getColor().equals("White")){
+            if(game.isWhitesTurn()==false){
+                return false;
+            }
+        }else{
+            if(game.isWhitesTurn()){
+                return false;
+            }
+        }
+        return true;
     }
     @Override
     public void onBackPressed() {
