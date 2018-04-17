@@ -111,14 +111,14 @@ public class NewGameActivity extends AppCompatActivity {
         TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
         //get the clicked row
         TableRow tableRow = (TableRow)v.getParent();
+        int row = table.indexOfChild(tableRow);
+        int col = tableRow.indexOfChild(v);
 
 
         //the user is clicking what piece he wants to move
         if(getSourceClick()==null){
             //this is a source click
-            //check if the user is trying to move a piece that isnt h
-            int row = table.indexOfChild(tableRow);
-            int col = tableRow.indexOfChild(v);
+            //check if the user is trying to move a piece that isnt his
 
             //check if the user clicked an empty square
             if(game.getBoard()[row][col].getPiece()==null){
@@ -134,9 +134,19 @@ public class NewGameActivity extends AppCompatActivity {
             }
         }else{ //the user is clicking the destination
             //the click is a destination click
+            //check if the user clicked an empty square
+            if(game.getBoard()[row][col].getPiece()==null){
+                //set both source and destination to null
+                setSourceClick(null);
+                setDestinationClick(null);
+            }
+            //check that that user is trying to move his own piece
+            if(!(movingOwnPiece(row, col))){
+                Toast.makeText(NewGameActivity.this, "That is not your piece!",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-
-            
         }
     }
 
