@@ -169,6 +169,19 @@ public class Board {
             }
         }
     }
+    public Board(boolean empty){
+        //create the board of squares and set their colors correctly
+        board = new Square[8][8];
+        for(int i = 0;i<8;i++){
+            for(int j =0;j<8;j++){
+                if((i%2==0&&j%2==0)||(i%2!=0&&j%2!=0)){
+                    board[i][j]=new Square("White");
+                }else{
+                    board[i][j]= new Square("Black");
+                }
+            }
+        }
+    }
 
     /**
      * This method takes the 2DArray created in the Board constructor and prints the board to standard out for the user of the program to visually see the match. It also adds a column at the end with numbers for each row and a row at the bottom with letters for each of column.

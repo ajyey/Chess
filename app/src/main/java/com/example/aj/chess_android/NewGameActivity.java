@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -78,6 +79,24 @@ public class NewGameActivity extends AppCompatActivity {
     private int sourceCol;
     private int destRow;
     private int destCol;
+    private Board previousBoard;
+    private Piece previousPieceMoved;
+
+    public Piece getPreviousPieceMoved() {
+        return previousPieceMoved;
+    }
+
+    public void setPreviousPieceMoved(Piece previousPieceMoved) {
+        this.previousPieceMoved = previousPieceMoved;
+    }
+
+    public Board getPreviousBoard() {
+        return previousBoard;
+    }
+
+    public void setPreviousBoard(Board previousBoard) {
+        this.previousBoard = previousBoard;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,14 +121,20 @@ public class NewGameActivity extends AppCompatActivity {
         TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
         setListenersForTable(table);
 
-        //gets the first table row
-        View view = table.getChildAt(0);
-        if(view instanceof TableRow){
-            TableRow row = (TableRow) view;
-            //gets the first square in the row
-            ImageView img = (ImageView)row.getChildAt(0);
-            System.out.println(img.getResources().getResourceName(img.getId()));
-        }
+        //set the function listener for the undo button
+        Button undoButton = (Button)findViewById(R.id.undoButton);
+        undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean whiteTurn = game.isWhitesTurn();
+                game = getPreviousBoard();
+                game.setLastPieceMoved(getPreviousPieceMoved());
+                game.setWhitesTurn(!whiteTurn);
+                setTurn(game.isWhitesTurn());
+                TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
+                redrawBoard(table,game);
+            }
+        });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -132,6 +157,23 @@ public class NewGameActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    /**
+     * Create a copy of the current game board to keep as a previous configuration for the undo functionality
+     * @param board The current game's board
+     * @return A new temporary board of the previous move's configuration
+     */
+    public Board createCopyOfBoard(Board board){
+        Board temp = new Board(true);
+        //temp is now an empty board
+        //copy the current game board into the temp board so we can perform the undo functionality
+        for(int i = 0;i<8;i++){
+            for(int j = 0;j<8;j++){
+                temp.getBoard()[i][j].setPiece(board.getBoard()[i][j].getPiece());
+            }
+        }
+        return temp;
     }
     public void redrawBoard(TableLayout layout, Board board){
         //loop through the game board and add the respective pieces that correlate to the board we
@@ -228,6 +270,7 @@ public class NewGameActivity extends AppCompatActivity {
                 //set both source and destination to null
                 setSourceClick(null);
                 setDestinationClick(null);
+                return;
             }
             //check that that user is trying to move his own piece
             if(!(movingOwnPiece(row, col))){
@@ -250,6 +293,9 @@ public class NewGameActivity extends AppCompatActivity {
             //check that the move is valid
             Piece piece = game.getBoard()[sourceRow][sourceCol].getPiece();
             if(piece.isValidMove(sourceRow,sourceCol,row,col,game)){
+                //set the previous board for undo functionality
+                setPreviousBoard(createCopyOfBoard(game));
+                setPreviousPieceMoved(game.getLastPieceMoved());
                 piece.move(sourceRow,sourceCol,row,col,game);
                 redrawBoard(table,game);
                 //set the opposite turn
@@ -297,6 +343,9 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
     public boolean movingOwnPiece(int row, int col){
+        if(game.getBoard()[row][col].getPiece()==null){
+            return false;
+        }
         if(game.getBoard()[row][col].getPiece().getColor().equals("White")){
             if(game.isWhitesTurn()==false){
                 return false;
