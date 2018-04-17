@@ -78,8 +78,8 @@ public class NewGameActivity extends AppCompatActivity {
 
             //we can use the following line to empty a square in the UI
 //            img.setImageDrawable(null);
-
         }
+        redrawBoard(table, game);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -100,6 +100,77 @@ public class NewGameActivity extends AppCompatActivity {
                         handleUserClick(v);
                     }
                 });
+            }
+        }
+    }
+    public void redrawBoard(TableLayout layout, Board board){
+        //loop through the game board and add the respective pieces that correlate to the board we
+        //have modeled
+        for(int i = 0; i<8;i++){
+            TableRow row = (TableRow)layout.getChildAt(i);
+            for(int j = 0;j<8;j++){
+                ImageView img = (ImageView)row.getChildAt(j);
+                //check if there is no piece there
+                if(board.getBoard()[i][j].getPiece()==null){
+                    continue;
+                }
+                String symbol = board.getBoard()[i][j].getPiece().getSymbol();
+                    //cases for symbols
+                    switch(symbol){
+                        //Pawn
+                        case "wp":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.white_pawn);
+                            break;
+                        //Bishop
+                        case "wB":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.white_bishop);
+                            break;
+                        case "wK":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.white_king);
+                            break;
+                        case "wQ":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.white_queen);
+                            break;
+                        case "wN":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.white_knight);
+                            break;
+                        case "wR":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.white_rook);
+                            break;
+                        case "bp":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.black_pawn);
+                            break;
+                        //Bishop
+                        case "bB":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.black_bishop);
+                            break;
+                        case "bK":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.black_king);
+                            break;
+                        case "bQ":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.black_queen);
+                            break;
+                        case "bN":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.black_knight);
+                            break;
+                        case "bR":
+                            img.setImageDrawable(null);
+                            img.setImageResource(R.drawable.black_rook);
+                            break;
+                    }
+
+
             }
         }
     }
