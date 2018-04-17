@@ -403,6 +403,7 @@ public class NewGameActivity extends AppCompatActivity {
     }
     //TODO:
         //implement the dialog to ask the user if they want save the game and provide a text input for a name for the game
+    
     public void checkmateHandler(){
         TextView textView = (TextView) findViewById(R.id.gameResult);
         if(game.checkmate()){
