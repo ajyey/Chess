@@ -18,6 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class NewGameActivity extends AppCompatActivity {
 
@@ -141,17 +144,53 @@ public class NewGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //get the current turn
-                if(game.isWhitesTurn()){
-                    //TODO:
-                    //its whites turn
-                    //loop through all the pieces
-                    //get all of the valid moves
-                    //put all valid moves into an array list of moves
-                    //pick a move randomly
-                    //execute that move on the board
-                    //redraw the game board for UI
-
+                List<Move> validMoves = new ArrayList<>();
+                for(int i = 0;i<8;i++){
+                    for(int j = 0;j<8;j++){
+                        if(game.getBoard()[i][j].getPiece()==null){
+                            continue;
+                        }
+                        Piece temp = game.getBoard()[i][j].getPiece();
+                        if(game.isWhitesTurn() && temp.getColor().equals("White")){
+                            //we are on a white piece
+                            //loop through the board and get all the valid moves for this piece
+                            for(int a = 0;a<8;a++){
+                                for(int b=0;b<8;b++){
+                                    if(a==i && b==j){
+                                        continue;
+                                    }
+                                    if(temp.isValidMove(i,j,a,b,game)){
+                                        validMoves.add(new Move(i,j,a,b));
+                                    }
+                                }
+                            }
+                        }else if(!(game.isWhitesTurn()) && temp.getColor().equals("Black")){
+                            for(int a = 0;a<8;a++){
+                                for(int b=0;b<8;b++){
+                                    if(a==i && b==j){
+                                        continue;
+                                    }
+                                    if(temp.isValidMove(i,j,a,b,game)){
+                                        validMoves.add(new Move(i,j,a,b));
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
+                //pick a random move to execute
+                Random rand = new Random();
+                System.out.println("valid moves size");
+                System.out.println(validMoves.size());
+                int randomMoveIndex = rand.nextInt(validMoves.size());
+                //execute the move
+                Move move = validMoves.get(randomMoveIndex);
+                Piece pieceToMove = game.getBoard()[move.getSourceRank()][move.getSourceFile()].getPiece();
+                pieceToMove.move(move.getSourceRank(),move.getSourceFile(),move.getDestRank(),move.getDestFile(),game);
+                game.setWhitesTurn(!(game.isWhitesTurn()));
+                //redraw the board
+                TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
+                redrawBoard(table, game);
 
             }
         });
@@ -324,23 +363,9 @@ public class NewGameActivity extends AppCompatActivity {
                 //check for check
 
                 //TODO:
-                    //set the game result button appropriately when the user
-                    //or we could just dynamically set the text of a dialog to "YOU WON" or "DRAW" or "YOU RESIGNED --color-- WINS"
-                if(game.check("White", game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && game.isWhitesTurn()){
-                    game.setBlackInCheck(true);
-                }else if(game.check("Black",game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && !game.isWhitesTurn()){
-                    game.setWhiteInCheck(true);
-                }
-
-                //check for checkmate
-                if(game.checkmate()){
-                    System.out.println("Checkmate");
-                    String winner = (game.isWhitesTurn()) ? "White wins": "Black wins";
-                    System.out.println(winner);
-                    System.exit(0);
-                }
-
-
+                //call handler for end of game
+                checkHandler();
+                checkmateHandler();
 
             }else{
                 Toast.makeText(NewGameActivity.this, "Invalid move!",
@@ -350,6 +375,25 @@ public class NewGameActivity extends AppCompatActivity {
             setDestinationClick(null);
 
 
+        }
+    }
+    public void checkHandler(){
+        TextView textView = (TextView) findViewById(R.id.gameResult);
+        if(game.check("White", game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && game.isWhitesTurn()){
+            game.setBlackInCheck(true);
+            textView.setText("Black is in check");
+        }else if(game.check("Black",game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && !game.isWhitesTurn()){
+            game.setWhiteInCheck(true);
+            textView.setText("White is in check");
+        }else{
+            textView.setText(null);
+        }
+    }
+    //TODO:
+        //implement the dialog for the checkmate
+    public void checkmateHandler(){
+        if(game.checkmate()){
+            String winner = (game.isWhitesTurn()) ? "White wins": "Black wins";
         }
     }
 
