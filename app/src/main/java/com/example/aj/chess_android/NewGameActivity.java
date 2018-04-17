@@ -135,7 +135,26 @@ public class NewGameActivity extends AppCompatActivity {
                 redrawBoard(table,game);
             }
         });
+        //set the function listener for the ai button
+        Button aiButton = (Button)findViewById(R.id.aiButton);
+        aiButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //get the current turn
+                if(game.isWhitesTurn()){
+                    //TODO:
+                    //its whites turn
+                    //loop through all the pieces
+                    //get all of the valid moves
+                    //put all valid moves into an array list of moves
+                    //pick a move randomly
+                    //execute that move on the board
+                    //redraw the game board for UI
 
+                }
+
+            }
+        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -303,6 +322,10 @@ public class NewGameActivity extends AppCompatActivity {
                 //reflect the turn in the UI
                 setTurn(game.isWhitesTurn());
                 //check for check
+
+                //TODO:
+                    //set the game result button appropriately when the user
+                    //or we could just dynamically set the text of a dialog to "YOU WON" or "DRAW" or "YOU RESIGNED --color-- WINS"
                 if(game.check("White", game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && game.isWhitesTurn()){
                     game.setBlackInCheck(true);
                 }else if(game.check("Black",game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && !game.isWhitesTurn()){
