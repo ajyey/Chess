@@ -487,11 +487,12 @@
 
     <Button
         android:id="@+id/drawButton"
+        style="@android:style/Widget.Material.Light.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/resignButton"
-        android:layout_marginStart="250dp"
+        android:layout_alignBaseline="@+id/resignButton"
+        android:layout_alignBottom="@+id/resignButton"
+        android:layout_alignEnd="@+id/boardLayout"
         android:text="Draw" />
 
     <TextView
@@ -501,22 +502,54 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="86dp"
         android:layout_marginLeft="40dp"
-        android:text="Current Turn: " />
+        android:text="Current Turn: "
+        android:textAppearance="@android:style/TextAppearance.Material" />
 
     <TextView
         android:id="@+id/currentTurn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/currentTurnLabel"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textAppearance="@android:style/TextAppearance.Material" />
 
     <Button
         android:id="@+id/resignButton"
+        style="@android:style/Widget.Material.Light.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="150dp"
+        android:layout_marginBottom="11dp"
+        android:layout_marginStart="54dp"
+        android:layout_toEndOf="@+id/currentTurnLabel"
         android:text="Resign" />
+
+    <Button
+        android:id="@+id/undoButton"
+        style="@android:style/Widget.Material.Light.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/resignButton"
+        android:layout_alignBottom="@+id/resignButton"
+        android:layout_toStartOf="@+id/currentTurn"
+        android:text="Undo" />
+
+    <Button
+        android:id="@+id/aiButton"
+        style="@android:style/Widget.Material.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/undoButton"
+        android:layout_alignBottom="@+id/undoButton"
+        android:layout_toStartOf="@+id/undoButton"
+        android:text="AI" />
+
+    <TextView
+        android:id="@+id/gameResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp" />
 
 </RelativeLayout>
