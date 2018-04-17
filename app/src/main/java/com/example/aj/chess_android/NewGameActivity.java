@@ -42,6 +42,43 @@ public class NewGameActivity extends AppCompatActivity {
 
     private Board game;
 
+    public int getSourceRow() {
+        return sourceRow;
+    }
+
+    public void setSourceRow(int sourceRow) {
+        this.sourceRow = sourceRow;
+    }
+
+    public int getSourceCol() {
+        return sourceCol;
+    }
+
+    public void setSourceCol(int sourceCol) {
+        this.sourceCol = sourceCol;
+    }
+
+    public int getDestRow() {
+        return destRow;
+    }
+
+    public void setDestRow(int destRow) {
+        this.destRow = destRow;
+    }
+
+    public int getDestCol() {
+        return destCol;
+    }
+
+    public void setDestCol(int destCol) {
+        this.destCol = destCol;
+    }
+
+    private int sourceRow;
+    private int sourceCol;
+    private int destRow;
+    private int destCol;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,14 +109,7 @@ public class NewGameActivity extends AppCompatActivity {
             //gets the first square in the row
             ImageView img = (ImageView)row.getChildAt(0);
             System.out.println(img.getResources().getResourceName(img.getId()));
-
-            //we can use the following line to update the board's square when we are moving pieces around
-//            img.setImageResource(R.drawable.black_knight);
-
-            //we can use the following line to empty a square in the UI
-//            img.setImageDrawable(null);
         }
-        redrawBoard(table, game);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -112,6 +142,7 @@ public class NewGameActivity extends AppCompatActivity {
                 ImageView img = (ImageView)row.getChildAt(j);
                 //check if there is no piece there
                 if(board.getBoard()[i][j].getPiece()==null){
+                    img.setImageDrawable(null);
                     continue;
                 }
                 String symbol = board.getBoard()[i][j].getPiece().getSymbol();
@@ -182,6 +213,7 @@ public class NewGameActivity extends AppCompatActivity {
         TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
         //get the clicked row
         TableRow tableRow = (TableRow)v.getParent();
+        ImageView img = (ImageView)tableRow.getChildAt(tableRow.indexOfChild(v));
         int row = table.indexOfChild(tableRow);
         int col = tableRow.indexOfChild(v);
 
@@ -203,6 +235,10 @@ public class NewGameActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 return;
             }
+            //set the source click imageview
+            setSourceClick(img);
+            setSourceRow(row);
+            setSourceCol(col);
         }else{ //the user is clicking the destination
             //the click is a destination click
             //check if the user clicked an empty square
@@ -211,12 +247,39 @@ public class NewGameActivity extends AppCompatActivity {
                 setSourceClick(null);
                 setDestinationClick(null);
             }
-            //check that that user is trying to move his own piece
-            if(!(movingOwnPiece(row, col))){
-                Toast.makeText(NewGameActivity.this, "That is not your piece!",
+            //check that the move is valid
+            Piece piece = game.getBoard()[sourceRow][sourceCol].getPiece();
+            if(piece.isValidMove(sourceRow,sourceCol,row,col,game)){
+                piece.move(sourceRow,sourceCol,row,col,game);
+                redrawBoard(table,game);
+                //set the opposite turn
+                game.setWhitesTurn(!(game.isWhitesTurn()));
+                //reflect the turn in the UI
+                setTurn(game.isWhitesTurn());
+                //check for check
+                if(game.check("White", game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && game.isWhitesTurn()){
+                    game.setBlackInCheck(true);
+                }else if(game.check("Black",game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && !game.isWhitesTurn()){
+                    game.setWhiteInCheck(true);
+                }
+
+                //check for checkmate
+                if(game.checkmate()){
+                    System.out.println("Checkmate");
+                    String winner = (game.isWhitesTurn()) ? "White wins": "Black wins";
+                    System.out.println(winner);
+                    System.exit(0);
+                }
+
+
+
+            }else{
+                Toast.makeText(NewGameActivity.this, "Invalid move!",
                         Toast.LENGTH_SHORT).show();
-                return;
             }
+            setSourceClick(null);
+            setDestinationClick(null);
+
 
         }
     }

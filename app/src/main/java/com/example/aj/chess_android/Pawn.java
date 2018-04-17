@@ -161,75 +161,76 @@ public class Pawn extends Piece{
         board.setLastPieceMoved(board.getBoard()[destRank][destFile].getPiece());
 
         //check if we should promote the pawn after the move
-        String input = board.getUserInput();
-        String [] splitInput = input.split(" ");
-        int len = splitInput.length;
+//        String input = board.getUserInput();
+//        String [] splitInput = input.split(" ");
+//        int len = splitInput.length;
         if(destRank==0 && this.getColor().equals("White")){
             //the pawn is white and has reached the opposite side of the board
-            if(len==3 && !(splitInput[len-1].equals("draw?"))){
-                Piece promotedPiece=null;
-                //we know that the user input a promotion piece
-                char promotionSymbol = splitInput[2].charAt(0);
-                switch(promotionSymbol){
-                    case 'Q':
-                        promotedPiece = new Queen("White");
-                        break;
-                    case 'N':
-                        promotedPiece = new Knight("White");
-                        break;
-                    case 'B':
-                        promotedPiece = new Bishop("White");
-                        break;
-                    case 'R' :
-                        promotedPiece = new Rook("White");
-                        break;
-                }
+//            if(len==3 && !(splitInput[len-1].equals("draw?"))){
+//                Piece promotedPiece=null;
+//                //we know that the user input a promotion piece
+//                char promotionSymbol = splitInput[2].charAt(0);
+//                switch(promotionSymbol){
+//                    case 'Q':
+//                        promotedPiece = new Queen("White");
+//                        break;
+//                    case 'N':
+//                        promotedPiece = new Knight("White");
+//                        break;
+//                    case 'B':
+//                        promotedPiece = new Bishop("White");
+//                        break;
+//                    case 'R' :
+//                        promotedPiece = new Rook("White");
+//                        break;
+//                }
                 //set the promoted piece on the board
-                board.getBoard()[destRank][destFile].setPiece(null);
-                board.getBoard()[destRank][destFile].setPiece(promotedPiece);
+//                board.getBoard()[destRank][destFile].setPiece(null);
+//                board.getBoard()[destRank][destFile].setPiece(promotedPiece);
+//                board.getBoard()[destRank][destFile].setPiece(new Queen("White"));
                 //set the last piece moved to be the newly promoted piece
-                board.setLastPieceMoved(board.getBoard()[destRank][destFile].getPiece());
-            }else{
+//                board.setLastPieceMoved(board.getBoard()[destRank][destFile].getPiece());
+//            }else{
                 //the user did not specify a promotion piece so we make it a queen
                 Piece queen = new Queen("White");
                 board.getBoard()[destRank][destFile].setPiece(null);
                 board.getBoard()[destRank][destFile].setPiece(queen);
                 board.setLastPieceMoved(board.getBoard()[destRank][destFile].getPiece());
-            }
+//            }
 
         }
         if(destRank==7 && this.getColor().equals("Black")){
             //the pawn is black and reached the opposite side of the board
-            if(len==3 && !(splitInput[len-1].equals("draw?"))){
-                Piece promotedPiece=null;
+//            if(len==3 && !(splitInput[len-1].equals("draw?"))){
+//                Piece promotedPiece=null;
                 //we know that the user input a promotion piece
-                char promotionSymbol = splitInput[2].charAt(0);
-                switch(promotionSymbol){
-                    case 'Q':
-                        promotedPiece = new Queen("Black");
-                        break;
-                    case 'N':
-                        promotedPiece = new Knight("Black");
-                        break;
-                    case 'B':
-                        promotedPiece = new Bishop("Black");
-                        break;
-                    case 'R' :
-                        promotedPiece = new Rook("Black");
-                        break;
-                }
+//                char promotionSymbol = splitInput[2].charAt(0);
+//                switch(promotionSymbol){
+//                    case 'Q':
+//                        promotedPiece = new Queen("Black");
+//                        break;
+//                    case 'N':
+//                        promotedPiece = new Knight("Black");
+//                        break;
+//                    case 'B':
+//                        promotedPiece = new Bishop("Black");
+//                        break;
+//                    case 'R' :
+//                        promotedPiece = new Rook("Black");
+//                        break;
+//                }
                 //set the promoted piece on the board
-                board.getBoard()[destRank][destFile].setPiece(null);
-                board.getBoard()[destRank][destFile].setPiece(promotedPiece);
-                //set the last piece moved to be the newly promoted piece
-                board.setLastPieceMoved(board.getBoard()[destRank][destFile].getPiece());
-            }else{
+//                board.getBoard()[destRank][destFile].setPiece(null);
+//                board.getBoard()[destRank][destFile].setPiece(promotedPiece);
+//                set the last piece moved to be the newly promoted piece
+//                board.setLastPieceMoved(board.getBoard()[destRank][destFile].getPiece());
+//            }else{
                 //the user did not specify a promotion piece so we make it a queen
                 Piece queen = new Queen("Black");
                 board.getBoard()[destRank][destFile].setPiece(null);
                 board.getBoard()[destRank][destFile].setPiece(queen);
                 board.setLastPieceMoved(board.getBoard()[destRank][destFile].getPiece());
-            }
+//            }
         }
         if(this.getColor().equals("White")) {
             board.setWhiteInCheck(false);
