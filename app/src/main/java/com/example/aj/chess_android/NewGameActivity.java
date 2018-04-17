@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 public class NewGameActivity extends AppCompatActivity {
 
+    private ImageView sourceClick = null;
+    private ImageView destinationClick = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +33,12 @@ public class NewGameActivity extends AppCompatActivity {
 
         //TODO;
             //add listeners to each image view to listen for a click so we know when the user is trying to move a piece
+            //create a method to update the current turn textview
+            //create a representation of the board that we can use as a model for the game
+
+        //set isWhitesTurn to be true at the start of the game
         boolean isWhitesTurn = true;
+        //set the current turn text to reflect the current turn
         TextView currentTurn = (TextView) findViewById(R.id.currentTurn);
         currentTurn.setText("White");
         TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
@@ -53,6 +61,31 @@ public class NewGameActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    /**
+     * Attaches listeners for a user's clicks for each Square on the chess board
+     * @param layout Passed in TableLayout that refers to the chess board
+     */
+    public void createListenersForTable(TableLayout layout){
+        for(int i = 0; i < 8; i++){
+            TableRow row = (TableRow)layout.getChildAt(i);
+            for(int j = 0;j < 8;j++){
+                ImageView img = (ImageView)row.getChildAt(j);
+                img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //call the click handler
+                        handleUserClick(v);
+                    }
+                });
+            }
+        }
+    }
+    //user click handler
+    //TODO:
+    public void handleUserClick(View v){
+        //check whether the click is a source click or a destination click
+
+    }
     @Override
     public void onBackPressed() {
         //Display alert message when back button has been pressed
