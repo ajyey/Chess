@@ -186,8 +186,16 @@ public class NewGameActivity extends AppCompatActivity {
                 //execute the move
                 Move move = validMoves.get(randomMoveIndex);
                 Piece pieceToMove = game.getBoard()[move.getSourceRank()][move.getSourceFile()].getPiece();
+
+
+                //TODO: bookkeeping
+                setPreviousBoard(createCopyOfBoard(game));
+                setPreviousPieceMoved(game.getLastPieceMoved());
                 pieceToMove.move(move.getSourceRank(),move.getSourceFile(),move.getDestRank(),move.getDestFile(),game);
                 game.setWhitesTurn(!(game.isWhitesTurn()));
+                setTurn(game.isWhitesTurn());
+                checkHandler();
+                checkmateHandler();
                 //redraw the board
                 TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
                 redrawBoard(table, game);
@@ -356,16 +364,17 @@ public class NewGameActivity extends AppCompatActivity {
                 setPreviousPieceMoved(game.getLastPieceMoved());
                 piece.move(sourceRow,sourceCol,row,col,game);
                 redrawBoard(table,game);
-                //set the opposite turn
-                game.setWhitesTurn(!(game.isWhitesTurn()));
-                //reflect the turn in the UI
-                setTurn(game.isWhitesTurn());
                 //check for check
-
+                TextView textView = (TextView)findViewById(R.id.gameResult);
                 //TODO:
                 //call handler for end of game
                 checkHandler();
                 checkmateHandler();
+
+                //set the opposite turn
+                game.setWhitesTurn(!(game.isWhitesTurn()));
+                //reflect the turn in the UI
+                setTurn(game.isWhitesTurn());
 
             }else{
                 Toast.makeText(NewGameActivity.this, "Invalid move!",
@@ -382,18 +391,20 @@ public class NewGameActivity extends AppCompatActivity {
         if(game.check("White", game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && game.isWhitesTurn()){
             game.setBlackInCheck(true);
             textView.setText("Black is in check");
+            System.out.println("BLACK IS IN CHECK");
+            System.out.println("CHECKKKK");
         }else if(game.check("Black",game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && !game.isWhitesTurn()){
             game.setWhiteInCheck(true);
             textView.setText("White is in check");
         }else{
             textView.setText(null);
+            return;
         }
     }
     //TODO:
         //implement the dialog to ask the user if they want save the game and provide a text input for a name for the game
     public void checkmateHandler(){
         TextView textView = (TextView) findViewById(R.id.gameResult);
-
         if(game.checkmate()){
             String winner = (game.isWhitesTurn()) ? "White wins!": "Black wins!";
             textView.setText(winner);
