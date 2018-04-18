@@ -72,6 +72,7 @@ public class ListSavedGames extends AppCompatActivity implements Serializable {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //get the clicked item
                 Game item = (Game)parent.getItemAtPosition(position);
                 //print the name of the clicked item
                 System.out.println("You clicked : "+item.getName());

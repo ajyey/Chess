@@ -1,10 +1,12 @@
 package com.example.aj.chess_android;
 
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class Game implements Serializable {
+public class Game implements Serializable{
     private String name;
     private ArrayList<Board> boardConfigurations = new ArrayList<>();
     private String dateSaved;
