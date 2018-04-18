@@ -8,9 +8,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -134,7 +136,10 @@ public class NewGameActivity extends AppCompatActivity {
         TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
         setListenersForTable(table);
 
+
         setUndoAlreadyPressed(false);
+        game.setWhiteProposedDraw(false);
+        game.setBlackProposedDraw(false);
 
         //set the function listener for the undo button
         Button undoButton = (Button)findViewById(R.id.undoButton);
@@ -156,6 +161,42 @@ public class NewGameActivity extends AppCompatActivity {
                 setTurn(game.isWhitesTurn());
                 setUndoAlreadyPressed(true);
 
+            }
+        });
+        //set the action listener for the draw button
+        Button drawButton = (Button)findViewById(R.id.drawButton);
+        drawButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(game.isWhitesTurn()){
+                    //white has pressed draw
+                    if(game.isBlackProposedDraw()){
+                        //black has already proposed a draw so we end the game in a draw
+                        //handle the draw
+                        drawHandler();
+
+                    }else{
+                        //black has not proposed draw so we set white proposed draw to true
+                        game.setWhiteProposedDraw(true);
+                        //switch turns
+                        game.setWhitesTurn(!(game.isWhitesTurn()));
+                        setTurn(game.isWhitesTurn());
+
+                    }
+
+                }else if(!(game.isWhitesTurn())){
+                    //black has pressed draw
+                    if(game.isWhiteProposedDraw()){
+                        //handle the draw
+                        drawHandler();
+                    }else{
+                        //white has not proposed draw so we set black proposed draw to true
+                        game.setBlackProposedDraw(true);
+                        //switch turns
+                        game.setWhitesTurn(!(game.isWhitesTurn()));
+                        setTurn(game.isWhitesTurn());
+                    }
+                }
             }
         });
         //set the function listener for the ai button
@@ -209,7 +250,6 @@ public class NewGameActivity extends AppCompatActivity {
                 Piece pieceToMove = game.getBoard()[move.getSourceRank()][move.getSourceFile()].getPiece();
 
 
-                //TODO: bookkeeping
                 setPreviousBoard(createCopyOfBoard(game));
                 setPreviousPieceMoved(game.getLastPieceMoved());
                 pieceToMove.move(move.getSourceRank(),move.getSourceFile(),move.getDestRank(),move.getDestFile(),game);
@@ -244,6 +284,46 @@ public class NewGameActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+    //TODO
+    public void drawHandler(){
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
+        View mView = layoutInflaterAndroid.inflate(R.layout.save_game_dialog, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
+        alertDialogBuilderUserInput.setView(mView);
+        TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
+        endOfGameInfo.setText("Game over by draw. Would you like to save the game?");
+        final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
+        userInputDialogEditText.setHint("Name of game to save..");
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
+                        // ToDo get user input here
+                        //get the user input
+                        String userInput = userInputDialogEditText.getText().toString().trim();
+                        //pass the string into the saveGame handler
+                        saveGame(userInput);
+
+                    }
+                })
+
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialogBox.cancel();
+                            }
+                        });
+
+        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.show();
+    }
+    //TODO:
+    public void saveGame(String trimmedUserInput){
+        //TODO
+        //check for duplicates in the static array of games
+
+        return;
     }
 
     /**

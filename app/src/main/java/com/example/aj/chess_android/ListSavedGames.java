@@ -9,7 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class ListSavedGames extends AppCompatActivity {
+    public static ArrayList<Move> tempMoves = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
