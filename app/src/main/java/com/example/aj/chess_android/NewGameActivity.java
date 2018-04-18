@@ -144,9 +144,9 @@ public class NewGameActivity extends AppCompatActivity {
                 if(isUndoAlreadyPressed()){
                     return;
                 }
-//                if(getPreviousBoard()==null){
-//                    return;
-//                }
+                if(getPreviousBoard()==null){
+                    return;
+                }
                 game = getPreviousBoard();
                 TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
                 redrawBoard(table,game);
