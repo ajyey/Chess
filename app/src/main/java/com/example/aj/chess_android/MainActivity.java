@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-
         return super.onOptionsItemSelected(item);
     }
 

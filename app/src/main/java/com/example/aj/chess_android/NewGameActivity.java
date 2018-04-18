@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.example.aj.chess_android.ListSavedGames.games;
+
 public class NewGameActivity extends AppCompatActivity {
 
     private ImageView sourceClick = null;
@@ -307,7 +309,7 @@ public class NewGameActivity extends AppCompatActivity {
         View mView = layoutInflaterAndroid.inflate(R.layout.save_game_dialog, null);
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
         alertDialogBuilderUserInput.setView(mView);
-        TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
+        final TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
         endOfGameInfo.setText("Game over by draw. Would you like to save the game?");
         final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
         userInputDialogEditText.setHint("Name of game to save..");
@@ -318,8 +320,13 @@ public class NewGameActivity extends AppCompatActivity {
                         // ToDo get user input here
                         //get the user input
                         String userInput = userInputDialogEditText.getText().toString().trim();
-                        //pass the string into the saveGame handler
-                        saveGame(userInput);
+                        if(isDuplicate(userInput)){
+                            //if there is a duplicate name then change the text field of the to tell the user there was a duplicate and to try again
+                            endOfGameInfo.setText("You already have a game saved by that name. Try again!");
+                        }else{
+                            saveGame(userInput);
+                            dialogBox.dismiss();
+                        }
 
                     }
                 })
@@ -350,7 +357,7 @@ public class NewGameActivity extends AppCompatActivity {
         View mView = layoutInflaterAndroid.inflate(R.layout.save_game_dialog, null);
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
         alertDialogBuilderUserInput.setView(mView);
-        TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
+        final TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
         endOfGameInfo.setText(title);
         final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
         userInputDialogEditText.setHint("Name of game to save..");
@@ -361,7 +368,13 @@ public class NewGameActivity extends AppCompatActivity {
                         //get the user input
                         String userInput = userInputDialogEditText.getText().toString().trim();
                         //pass the string into the saveGame handler
-                        saveGame(userInput);
+                        if(isDuplicate(userInput)){
+                            //if there is a duplicate name then change the text field of the to tell the user there was a duplicate and to try again
+                            endOfGameInfo.setText("You already have a game saved by that name. Try again!");
+                        }else{
+                            saveGame(userInput);
+                            dialogBox.dismiss();
+                        }
 
                     }
                 })
@@ -391,7 +404,7 @@ public class NewGameActivity extends AppCompatActivity {
         View mView = layoutInflaterAndroid.inflate(R.layout.save_game_dialog, null);
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
         alertDialogBuilderUserInput.setView(mView);
-        TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
+        final TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
         endOfGameInfo.setText(title);
         final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
         userInputDialogEditText.setHint("Name of game to save..");
@@ -402,11 +415,16 @@ public class NewGameActivity extends AppCompatActivity {
                         //get the user input
                         String userInput = userInputDialogEditText.getText().toString().trim();
                         //pass the string into the saveGame handler
-                        saveGame(userInput);
+                        if(isDuplicate(userInput)){
+                            //if there is a duplicate name then change the text field of the to tell the user there was a duplicate and to try again
+                            endOfGameInfo.setText("You already have a game saved by that name. Try again!");
+                        }else{
+                            saveGame(userInput);
+                            dialogBox.dismiss();
+                        }
 
                     }
                 })
-
                 .setNegativeButton("No thanks",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogBox, int id) {
@@ -419,11 +437,21 @@ public class NewGameActivity extends AppCompatActivity {
         AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
         alertDialogAndroid.show();
     }
+    public boolean isDuplicate(String trimmedUserInput){
+        //check for duplicates in the static array of games
+        for(int i = 0;i<games.size();i++){
+            Game temp = games.get(i);
+            if(temp.getName().trim().toLowerCase().equals(trimmedUserInput.toLowerCase())){
+                //duplicate game
+                return true;
+            }
+        }
+        return false;
+    }
     //TODO:
     public void saveGame(String trimmedUserInput){
         //TODO
-        //check for duplicates in the static array of games
-        //if there is a duplicate game name, throw an alert
+        System.out.println("Save game function connected");
         //if not then create a new game object with the user input, board configs, and the date created
         //add that game to the static list of games
         //serialize the list of games
