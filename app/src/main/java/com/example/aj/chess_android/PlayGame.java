@@ -19,6 +19,7 @@ public class PlayGame extends AppCompatActivity {
         Intent intent = getIntent();
         Game gameToPlay = (Game)intent.getSerializableExtra("gameObject");
         System.out.println(gameToPlay.getName());
+        setTitle("Play game: "+gameToPlay.getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
