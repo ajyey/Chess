@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Random;
 
 import static com.example.aj.chess_android.ListSavedGames.games;
+import static com.example.aj.chess_android.ListSavedGames.readApp;
 import static com.example.aj.chess_android.ListSavedGames.writeApp;
 
 public class NewGameActivity extends AppCompatActivity {
@@ -138,6 +139,15 @@ public class NewGameActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle("Good Luck!");
 
+
+        //read in games
+        try {
+            games = readApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         //create model for the game
         game = new Board();
         game.setWhitesTurn(true);
@@ -185,7 +195,7 @@ public class NewGameActivity extends AppCompatActivity {
                     if(game.isBlackProposedDraw()){
                         //black has already proposed a draw so we end the game in a draw
                         //handle the draw
-                        drawHandler();
+                        endOfGameHandler("Game over by draw. Would you like to save the game?");
 
                     }else{
                         //black has not proposed draw so we set white proposed draw to true
@@ -200,7 +210,7 @@ public class NewGameActivity extends AppCompatActivity {
                     //black has pressed draw
                     if(game.isWhiteProposedDraw()){
                         //handle the draw
-                        drawHandler();
+                        endOfGameHandler("Game over by draw. Would you like to save the game?");
                     }else{
                         //white has not proposed draw so we set black proposed draw to true
                         game.setBlackProposedDraw(true);
@@ -217,7 +227,14 @@ public class NewGameActivity extends AppCompatActivity {
         resignButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resignHandler(game.isWhitesTurn());
+                String title;
+                if(game.isWhitesTurn()){
+                    //white is resigning
+                    title = "Black wins! Would you like to save the game?";
+                }else{
+                    title = "White wins! Would you like to save the game?";
+                }
+                endOfGameHandler(title);
             }
         });
         //set the function listener for the ai button
@@ -307,34 +324,21 @@ public class NewGameActivity extends AppCompatActivity {
             }
         }
     }
-    //TODO
-    public void drawHandler(){
+
+    public void endOfGameHandler(String title){
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
         View mView = layoutInflaterAndroid.inflate(R.layout.save_game_dialog, null);
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
         alertDialogBuilderUserInput.setView(mView);
         final TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
-        endOfGameInfo.setText("Game over by draw. Would you like to save the game?");
+        endOfGameInfo.setText(title);
         final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
         userInputDialogEditText.setHint("Name of game to save..");
         alertDialogBuilderUserInput
                 .setCancelable(false)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogBox, int id) {
-                        // ToDo get user input here
-                        //get the user input
-                        String userInput = userInputDialogEditText.getText().toString().trim();
-                        if(isDuplicate(userInput)){
-                            //if there is a duplicate name then change the text field of the to tell the user there was a duplicate and to try again
-                            endOfGameInfo.setText("You already have a game saved by that name. Try again!");
-                        }else{
-                            try {
-                                saveGame(userInput);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            dialogBox.dismiss();
-                        }
+
 
                     }
                 })
@@ -348,110 +352,25 @@ public class NewGameActivity extends AppCompatActivity {
                             }
                         });
 
-        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        final AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
         alertDialogAndroid.show();
-    }
-    //TODO:
-    public void resignHandler(boolean isWhitesTurn){
-        String title;
-            if(isWhitesTurn){
-                //white is resigning
-                title = "Black wins! Would you like to save the game?";
-            }else{
-                title = "White wins! Would you like to save the game?";
+        alertDialogAndroid.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userInput = userInputDialogEditText.getText().toString().trim();
+                if(isDuplicate(userInput)){
+                    //if there is a duplicate name then change the text field of the to tell the user there was a duplicate and to try again
+                    endOfGameInfo.setText("You already have a game saved by that name. Try again!");
+                }else{
+                    try {
+                        saveGame(userInput);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    alertDialogAndroid.dismiss();
+                }
             }
-            //show the dialog
-        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
-        View mView = layoutInflaterAndroid.inflate(R.layout.save_game_dialog, null);
-        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
-        alertDialogBuilderUserInput.setView(mView);
-        final TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
-        endOfGameInfo.setText(title);
-        final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
-        userInputDialogEditText.setHint("Name of game to save..");
-        alertDialogBuilderUserInput
-                .setCancelable(false)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogBox, int id) {
-                        //get the user input
-                        String userInput = userInputDialogEditText.getText().toString().trim();
-                        //pass the string into the saveGame handler
-                        if(isDuplicate(userInput)){
-                            //if there is a duplicate name then change the text field of the to tell the user there was a duplicate and to try again
-                            endOfGameInfo.setText("You already have a game saved by that name. Try again!");
-                        }else{
-                            try {
-                                saveGame(userInput);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            dialogBox.dismiss();
-                        }
-
-                    }
-                })
-
-                .setNegativeButton("No thanks",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialogBox, int id) {
-                                dialogBox.cancel();
-                                Intent startGamePage = new Intent(NewGameActivity.this, MainActivity.class);
-                                startActivity(startGamePage);
-                            }
-                        });
-
-        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
-        alertDialogAndroid.show();
-    }
-    //TODO
-    public void checkmateDialogHandler(boolean isWhitesTurn){
-        String title;
-        if(isWhitesTurn){
-            //white is resigning
-            title = "White wins by checkmate! Would you like to save the game?";
-        }else{
-            title = "Black wins by checkmate! Would you like to save the game?";
-        }
-        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
-        View mView = layoutInflaterAndroid.inflate(R.layout.save_game_dialog, null);
-        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
-        alertDialogBuilderUserInput.setView(mView);
-        final TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
-        endOfGameInfo.setText(title);
-        final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
-        userInputDialogEditText.setHint("Name of game to save..");
-        alertDialogBuilderUserInput
-                .setCancelable(false)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogBox, int id) {
-                        //get the user input
-                        String userInput = userInputDialogEditText.getText().toString().trim();
-                        //pass the string into the saveGame handler
-                        if(isDuplicate(userInput)){
-                            //if there is a duplicate name then change the text field of the to tell the user there was a duplicate and to try again
-                            endOfGameInfo.setText("You already have a game saved by that name. Try again!");
-                        }else{
-                            try {
-                                saveGame(userInput);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            dialogBox.dismiss();
-                        }
-
-                    }
-                })
-                .setNegativeButton("No thanks",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialogBox, int id) {
-                                dialogBox.cancel();
-                                Intent startGamePage = new Intent(NewGameActivity.this, MainActivity.class);
-                                startActivity(startGamePage);
-                            }
-                        });
-
-        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
-        alertDialogAndroid.show();
+        });
     }
     public boolean isDuplicate(String trimmedUserInput){
         //check for duplicates in the static array of games
@@ -701,7 +620,14 @@ public class NewGameActivity extends AppCompatActivity {
         if(game.checkmate()){
             String winner = (game.isWhitesTurn()) ? "White wins!": "Black wins!";
             textView.setText(winner);
-            checkmateDialogHandler(game.isWhitesTurn());
+            String title;
+            if(game.isWhitesTurn()){
+                //white is resigning
+                title = "White wins by checkmate! Would you like to save the game?";
+            }else{
+                title = "Black wins by checkmate! Would you like to save the game?";
+            }
+            endOfGameHandler(title);
         }
     }
 
