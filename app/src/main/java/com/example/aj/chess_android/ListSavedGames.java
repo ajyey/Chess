@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.io.File;
@@ -65,6 +66,18 @@ public class ListSavedGames extends AppCompatActivity implements Serializable {
         GamesAdapter adapter = new GamesAdapter(this,games);
         ListView listView = (ListView)findViewById(R.id.gamesList);
         listView.setAdapter(adapter);
+
+
+        //set listener for listview
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Game item = (Game)parent.getItemAtPosition(position);
+                //print the name of the clicked item
+                System.out.println("You clicked : "+item.getName());
+
+            }
+        });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
