@@ -2,6 +2,7 @@ package com.example.aj.chess_android;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -75,7 +76,10 @@ public class ListSavedGames extends AppCompatActivity implements Serializable {
                 //get the clicked item
                 Game item = (Game)parent.getItemAtPosition(position);
                 //print the name of the clicked item
-                System.out.println("You clicked : "+item.getName());
+                //pass the game into the play game activity
+                Intent intent = new Intent(ListSavedGames.this,PlayGame.class);
+                intent.putExtra("gameObject",item);
+                startActivity(intent);
 
             }
         });
