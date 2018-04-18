@@ -236,9 +236,21 @@ public class NewGameActivity extends AppCompatActivity {
         //copy the current game board into the temp board so we can perform the undo functionality
         for(int i = 0;i<8;i++){
             for(int j = 0;j<8;j++){
-                temp.getBoard()[i][j].setPiece(board.getBoard()[i][j].getPiece());
+                Piece boardPiece = board.getBoard()[i][j].getPiece();
+                temp.getBoard()[i][j].setPiece(boardPiece);
             }
         }
+        temp.setBlackInCheck(board.isBlackInCheck());
+        temp.setWhiteInCheck(board.isWhiteInCheck());
+
+        temp.setBlackKingFile(board.getBlackKingFile());
+        temp.setBlackKingRank(board.getBlackKingRank());
+        temp.setWhiteKingRank(board.getBlackKingRank());
+        temp.setWhiteKingFile(board.getWhiteKingFile());
+
+        temp.setWhitesTurn(board.isWhitesTurn());
+        temp.setBlackProposedDraw(board.isBlackProposedDraw());
+        temp.setWhiteProposedDraw(board.isWhiteProposedDraw());
         return temp;
     }
     public void redrawBoard(TableLayout layout, Board board){
