@@ -12,7 +12,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 public class ListSavedGames extends AppCompatActivity {
-    public static ArrayList<Move> tempMoves = new ArrayList<>();
+    public static ArrayList<Game> games;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
