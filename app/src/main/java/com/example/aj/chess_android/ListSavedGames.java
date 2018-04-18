@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ListView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,6 +51,11 @@ public class ListSavedGames extends AppCompatActivity implements Serializable {
             System.out.println("Error");
             e.printStackTrace();
         }
+
+        //set the listview to read from games
+        GamesAdapter adapter = new GamesAdapter(this,games);
+        ListView listView = (ListView)findViewById(R.id.gamesList);
+        listView.setAdapter(adapter);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
