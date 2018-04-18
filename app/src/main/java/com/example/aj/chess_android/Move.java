@@ -1,10 +1,12 @@
 package com.example.aj.chess_android;
 
+import java.io.Serializable;
+
 /**
  * Created by aj on 4/17/18.
  */
 
-public class Move {
+public class Move implements Serializable {
     private int sourceRank;
     private int sourceFile;
     private int destRank;
