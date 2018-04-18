@@ -378,6 +378,47 @@ public class NewGameActivity extends AppCompatActivity {
         AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
         alertDialogAndroid.show();
     }
+    //TODO
+    public void checkmateDialogHandler(boolean isWhitesTurn){
+        String title;
+        if(isWhitesTurn){
+            //white is resigning
+            title = "White wins by checkmate! Would you like to save the game?";
+        }else{
+            title = "Black wins by checkmate! Would you like to save the game?";
+        }
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
+        View mView = layoutInflaterAndroid.inflate(R.layout.save_game_dialog, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
+        alertDialogBuilderUserInput.setView(mView);
+        TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
+        endOfGameInfo.setText(title);
+        final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
+        userInputDialogEditText.setHint("Name of game to save..");
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
+                        //get the user input
+                        String userInput = userInputDialogEditText.getText().toString().trim();
+                        //pass the string into the saveGame handler
+                        saveGame(userInput);
+
+                    }
+                })
+
+                .setNegativeButton("No thanks",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialogBox.cancel();
+                                Intent startGamePage = new Intent(NewGameActivity.this, MainActivity.class);
+                                startActivity(startGamePage);
+                            }
+                        });
+
+        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.show();
+    }
     //TODO:
     public void saveGame(String trimmedUserInput){
         //TODO
@@ -607,6 +648,7 @@ public class NewGameActivity extends AppCompatActivity {
         if(game.checkmate()){
             String winner = (game.isWhitesTurn()) ? "White wins!": "Black wins!";
             textView.setText(winner);
+            checkmateDialogHandler(game.isWhitesTurn());
         }
     }
 
