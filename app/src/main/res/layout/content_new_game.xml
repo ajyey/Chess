@@ -545,12 +545,12 @@
         android:text="AI" />
 
     <TextView
-        android:id="@+id/gameResult"
+        android:id="@+id/playGameResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
-        android:textAppearance="@android:style/TextAppearance.Material" />
+        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
 </RelativeLayout>

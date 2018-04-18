@@ -2,16 +2,11 @@ package com.example.aj.chess_android;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,8 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.sql.Array;
-import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -558,7 +551,7 @@ public class NewGameActivity extends AppCompatActivity {
                 piece.move(sourceRow,sourceCol,row,col,game);
                 redrawBoard(table,game);
                 //check for check
-                TextView textView = (TextView)findViewById(R.id.gameResult);
+                TextView textView = (TextView)findViewById(R.id.playGameResult);
                 //TODO:
                 //call handler for end of game
                 checkHandler();
@@ -584,7 +577,7 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
     public void checkHandler(){
-        TextView textView = (TextView) findViewById(R.id.gameResult);
+        TextView textView = (TextView) findViewById(R.id.playGameResult);
         if(game.check("White", game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && game.isWhitesTurn()){
             game.setBlackInCheck(true);
             textView.setText("Black is in check");
@@ -599,7 +592,7 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
     public void undoCheckHandler(){
-        TextView textView = (TextView) findViewById(R.id.gameResult);
+        TextView textView = (TextView) findViewById(R.id.playGameResult);
 
         if(game.check("White", game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && !game.isWhitesTurn()){
             game.setBlackInCheck(true);
@@ -618,7 +611,7 @@ public class NewGameActivity extends AppCompatActivity {
         //implement the dialog to ask the user if they want save the game and provide a text input for a name for the game
     
     public void checkmateHandler(){
-        TextView textView = (TextView) findViewById(R.id.gameResult);
+        TextView textView = (TextView) findViewById(R.id.playGameResult);
         if(game.checkmate()){
             String winner = (game.isWhitesTurn()) ? "White wins!": "Black wins!";
             textView.setText(winner);
