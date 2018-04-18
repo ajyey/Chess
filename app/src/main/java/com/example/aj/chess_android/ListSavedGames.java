@@ -11,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -22,7 +24,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 public class ListSavedGames extends AppCompatActivity implements Serializable {
     public static final String storeDir = "app/src/main/dat";
@@ -65,6 +74,48 @@ public class ListSavedGames extends AppCompatActivity implements Serializable {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+         if(item.getItemId()==R.id.sortByDate){
+             //sort the games by date
+             Collections.sort(games, new Comparator<Game>() {
+                 @Override
+                 public int compare(Game o1, Game o2) {
+                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm:ss");
+                     try {
+                         Date date1 = sdf.parse(o1.getDateSaved());
+                         Date date2 = sdf.parse(o2.getDateSaved());
+                         System.out.println("in here");
+                         return date1.compareTo(date2);
+
+                     } catch (ParseException e) {
+                         e.printStackTrace();
+                         return 0;
+                     }
+                 }
+             });
+             //set the list adapter
+             GamesAdapter adapter = new GamesAdapter(this,games);
+             ListView listView = (ListView)findViewById(R.id.gamesList);
+             listView.setAdapter(adapter);
+
+         }else if(item.getItemId()==R.id.sortByName){
+            //sort the games by name
+             Collections.sort(games, new Comparator<Game>() {
+                 @Override
+                 public int compare(Game o1, Game o2) {
+                     return o1.getName().compareTo(o2.getName());
+                 }
+             });
+
+             // set the list adapter
+             GamesAdapter adapter = new GamesAdapter(this,games);
+             ListView listView = (ListView)findViewById(R.id.gamesList);
+             listView.setAdapter(adapter);
+         }
+        return super.onOptionsItemSelected(item);
+    }
     public static void writeApp(ArrayList<Game> gamesToSave, Context context) throws IOException{
             FileOutputStream fileOutputStream = context.openFileOutput(storeFile, Context.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -85,5 +136,6 @@ public class ListSavedGames extends AppCompatActivity implements Serializable {
         return readGames;
 
     }
+
 
 }

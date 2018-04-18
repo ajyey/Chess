@@ -2,6 +2,7 @@ package com.example.aj.chess_android;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Game implements Serializable {
     private String name;
@@ -37,4 +38,6 @@ public class Game implements Serializable {
     public void setDateSaved(String dateSaved) {
         this.dateSaved = dateSaved;
     }
+
+
 }
