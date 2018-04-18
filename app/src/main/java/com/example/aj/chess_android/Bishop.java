@@ -1,6 +1,8 @@
 package com.example.aj.chess_android;
 
-public class Bishop extends Piece {
+import java.io.Serializable;
+
+public class Bishop extends Piece implements Serializable {
     public Bishop(String color){
         super(color,"Bishop");
         //set the symbol for use in the draw board method

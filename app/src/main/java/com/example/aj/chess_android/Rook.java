@@ -1,7 +1,9 @@
 package com.example.aj.chess_android;
 
 
-public class Rook extends Piece{
+import java.io.Serializable;
+
+public class Rook extends Piece implements Serializable{
     /**
      * Constructor that initializes the color of the Rook and sets the type to Rook and the symbol depending on the input color
      * @param color desired color of the Rook piece

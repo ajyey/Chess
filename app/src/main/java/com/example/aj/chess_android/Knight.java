@@ -1,9 +1,11 @@
 package com.example.aj.chess_android;
 
+import java.io.Serializable;
+
 /**
  * Subclass of Piece that represents the Knight piece.
  */
-public class Knight extends Piece{
+public class Knight extends Piece implements Serializable{
     /**
      * Constructor that initializes the color of the Knight and sets the type to Knight and the symbol depending on the input color
      * @param color desired color of the Knight piece

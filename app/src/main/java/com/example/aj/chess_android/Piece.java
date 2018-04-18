@@ -1,9 +1,11 @@
 package com.example.aj.chess_android;
 
+import java.io.Serializable;
+
 /**
  * Abstract class that is the parent class of each of the different pieces of the chess board. Eases implementation of each piece to avoid redundant code.
  */
-public abstract class Piece  {
+public abstract class Piece implements Serializable {
     /**
      * The color of the piece
      */

@@ -1,8 +1,9 @@
 package com.example.aj.chess_android;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Board {
+public class Board implements Serializable {
     /**
      * 2DArray that holds the pieces of the board in their respective locations
      */

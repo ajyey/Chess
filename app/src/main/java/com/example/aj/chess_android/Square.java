@@ -1,7 +1,9 @@
 package com.example.aj.chess_android;
 
 
-public class Square {
+import java.io.Serializable;
+
+public class Square implements Serializable {
     /**
      * Piece that is on the current square
      */

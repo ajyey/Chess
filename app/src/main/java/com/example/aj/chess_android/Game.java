@@ -5,13 +5,21 @@ import java.util.ArrayList;
 
 public class Game implements Serializable {
     private String name;
-    private ArrayList<Move> moves;
+    private ArrayList<Board> boardConfigurations = new ArrayList<>();
     private String dateSaved;
 
-    public Game(String name, ArrayList<Move> moves, String dateSaved) {
+    public Game(String name, ArrayList<Board> boardConfigurations, String dateSaved) {
         this.name = name;
-        this.moves = moves;
+        this.boardConfigurations = boardConfigurations;
         this.dateSaved = dateSaved;
+    }
+
+    public ArrayList<Board> getBoardConfigurations() {
+        return boardConfigurations;
+    }
+
+    public void setBoardConfigurations(ArrayList<Board> boardConfigurations) {
+        this.boardConfigurations = boardConfigurations;
     }
 
     public String getName() {
@@ -20,14 +28,6 @@ public class Game implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public ArrayList<Move> getMoves() {
-        return moves;
-    }
-
-    public void setMoves(ArrayList<Move> moves) {
-        this.moves = moves;
     }
 
     public String getDateSaved() {

@@ -1,9 +1,11 @@
 package com.example.aj.chess_android;
 
+import java.io.Serializable;
+
 /**
  * Subclass of Piece that represents the Queen piece.
  */
-public class Queen extends Piece{
+public class Queen extends Piece implements Serializable{
 
     /**
      * Constructor that initializes the color of the Queen and sets the type to Queen and the symbol depending on the input color

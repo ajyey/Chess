@@ -1,6 +1,8 @@
 package com.example.aj.chess_android;
 
-public class King extends Piece{
+import java.io.Serializable;
+
+public class King extends Piece implements Serializable{
 
     /**
      * Field that keeps track of whether the King has performed the castle move or not. (Initialized to false at the beginning)

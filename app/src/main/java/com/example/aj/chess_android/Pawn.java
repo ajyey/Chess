@@ -1,9 +1,11 @@
 package com.example.aj.chess_android;
 
+import java.io.Serializable;
+
 /**
  * Subclass of Piece that represents the Pawn piece.
  */
-public class Pawn extends Piece{
+public class Pawn extends Piece implements Serializable{
     /**
      * Constructor that initializes the color of the Pawn and sets the type to Pawn and the symbol depending on the input color
      * @param color desired color of the Pawn piece
