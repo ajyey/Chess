@@ -20,13 +20,17 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.sql.Array;
 import java.sql.SQLOutput;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import static com.example.aj.chess_android.ListSavedGames.games;
+import static com.example.aj.chess_android.ListSavedGames.writeApp;
 
 public class NewGameActivity extends AppCompatActivity {
 
@@ -324,7 +328,11 @@ public class NewGameActivity extends AppCompatActivity {
                             //if there is a duplicate name then change the text field of the to tell the user there was a duplicate and to try again
                             endOfGameInfo.setText("You already have a game saved by that name. Try again!");
                         }else{
-                            saveGame(userInput);
+                            try {
+                                saveGame(userInput);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             dialogBox.dismiss();
                         }
 
@@ -372,7 +380,11 @@ public class NewGameActivity extends AppCompatActivity {
                             //if there is a duplicate name then change the text field of the to tell the user there was a duplicate and to try again
                             endOfGameInfo.setText("You already have a game saved by that name. Try again!");
                         }else{
-                            saveGame(userInput);
+                            try {
+                                saveGame(userInput);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             dialogBox.dismiss();
                         }
 
@@ -419,7 +431,11 @@ public class NewGameActivity extends AppCompatActivity {
                             //if there is a duplicate name then change the text field of the to tell the user there was a duplicate and to try again
                             endOfGameInfo.setText("You already have a game saved by that name. Try again!");
                         }else{
-                            saveGame(userInput);
+                            try {
+                                saveGame(userInput);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             dialogBox.dismiss();
                         }
 
@@ -449,13 +465,22 @@ public class NewGameActivity extends AppCompatActivity {
         return false;
     }
     //TODO:
-    public void saveGame(String trimmedUserInput){
+    public void saveGame(String trimmedUserInput) throws IOException {
         //TODO
         System.out.println("Save game function connected");
         //if not then create a new game object with the user input, board configs, and the date created
+        //create a new Date
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm:ss");
+        String dateAdded = sdf.format(new Date());
+        Game newGame = new Game(trimmedUserInput,boards,dateAdded);
+        games.add(newGame);
         //add that game to the static list of games
+        writeApp(games, this);
         //serialize the list of games
         //redirect to the saved games view???
+        Intent listGamesPage = new Intent(NewGameActivity.this, ListSavedGames.class);
+        startActivity(listGamesPage);
+
 
         return;
     }
