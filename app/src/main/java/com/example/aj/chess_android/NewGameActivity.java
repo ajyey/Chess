@@ -315,7 +315,7 @@ public class NewGameActivity extends AppCompatActivity {
                     }
                 })
 
-                .setNegativeButton("Cancel",
+                .setNegativeButton("No thanks",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogBox, int id) {
                                 dialogBox.cancel();
