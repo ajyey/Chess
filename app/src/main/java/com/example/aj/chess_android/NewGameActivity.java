@@ -129,13 +129,13 @@ public class NewGameActivity extends AppCompatActivity {
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean whiteTurn = game.isWhitesTurn();
                 game = getPreviousBoard();
-                game.setLastPieceMoved(getPreviousPieceMoved());
-                game.setWhitesTurn(!whiteTurn);
-                setTurn(game.isWhitesTurn());
+                boolean turn = game.isWhitesTurn();
                 TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
                 redrawBoard(table,game);
+                undoCheckHandler();
+                checkmateHandler();
+                setTurn(game.isWhitesTurn());
             }
         });
         //set the function listener for the ai button
@@ -245,10 +245,10 @@ public class NewGameActivity extends AppCompatActivity {
 
         temp.setBlackKingFile(board.getBlackKingFile());
         temp.setBlackKingRank(board.getBlackKingRank());
-        temp.setWhiteKingRank(board.getBlackKingRank());
+        temp.setWhiteKingRank(board.getWhiteKingRank());
         temp.setWhiteKingFile(board.getWhiteKingFile());
 
-        temp.setWhitesTurn(board.isWhitesTurn());
+//        temp.setWhitesTurn(board.isWhitesTurn());
         temp.setBlackProposedDraw(board.isBlackProposedDraw());
         temp.setWhiteProposedDraw(board.isWhiteProposedDraw());
         return temp;
@@ -406,6 +406,22 @@ public class NewGameActivity extends AppCompatActivity {
             System.out.println("BLACK IS IN CHECK");
             System.out.println("CHECKKKK");
         }else if(game.check("Black",game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && !game.isWhitesTurn()){
+            game.setWhiteInCheck(true);
+            textView.setText("White is in check");
+        }else{
+            textView.setText(null);
+            return;
+        }
+    }
+    public void undoCheckHandler(){
+        TextView textView = (TextView) findViewById(R.id.gameResult);
+
+        if(game.check("White", game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && !game.isWhitesTurn()){
+            game.setBlackInCheck(true);
+            textView.setText("Black is in check");
+            System.out.println("BLACK IS IN CHECK");
+            System.out.println("CHECKKKK");
+        }else if(game.check("Black",game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && game.isWhitesTurn()){
             game.setWhiteInCheck(true);
             textView.setText("White is in check");
         }else{
