@@ -12,7 +12,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 public class ListSavedGames extends AppCompatActivity {
-    public static ArrayList<Game> games;
+    public static ArrayList<Game> games = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
