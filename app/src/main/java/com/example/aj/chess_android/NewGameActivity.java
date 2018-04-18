@@ -205,6 +205,15 @@ public class NewGameActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //set the action listener for the resign button
+        Button resignButton = (Button)findViewById(R.id.resignButton);
+        resignButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resignHandler(game.isWhitesTurn());
+            }
+        });
         //set the function listener for the ai button
         Button aiButton = (Button)findViewById(R.id.aiButton);
         aiButton.setOnClickListener(new View.OnClickListener() {
@@ -307,6 +316,48 @@ public class NewGameActivity extends AppCompatActivity {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogBox, int id) {
                         // ToDo get user input here
+                        //get the user input
+                        String userInput = userInputDialogEditText.getText().toString().trim();
+                        //pass the string into the saveGame handler
+                        saveGame(userInput);
+
+                    }
+                })
+
+                .setNegativeButton("No thanks",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialogBox.cancel();
+                                Intent startGamePage = new Intent(NewGameActivity.this, MainActivity.class);
+                                startActivity(startGamePage);
+                            }
+                        });
+
+        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.show();
+    }
+    //TODO:
+    public void resignHandler(boolean isWhitesTurn){
+        String title;
+            if(isWhitesTurn){
+                //white is resigning
+                title = "Black wins! Would you like to save the game?";
+            }else{
+                title = "White wins! Would you like to save the game?";
+            }
+            //show the dialog
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
+        View mView = layoutInflaterAndroid.inflate(R.layout.save_game_dialog, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
+        alertDialogBuilderUserInput.setView(mView);
+        TextView endOfGameInfo = (TextView) mView.findViewById(R.id.dialogTitle);
+        endOfGameInfo.setText(title);
+        final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
+        userInputDialogEditText.setHint("Name of game to save..");
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
                         //get the user input
                         String userInput = userInputDialogEditText.getText().toString().trim();
                         //pass the string into the saveGame handler
