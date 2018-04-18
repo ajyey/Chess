@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 
 import java.io.File;
@@ -55,6 +56,12 @@ public class ListSavedGames extends AppCompatActivity implements Serializable {
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
     public static void writeApp(ArrayList<Game> gamesToSave, Context context) throws IOException{
             FileOutputStream fileOutputStream = context.openFileOutput(storeFile, Context.MODE_PRIVATE);
