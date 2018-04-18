@@ -131,12 +131,6 @@ public class NewGameActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setTitle("Good Luck!");
 
-        //handle the back button to make sure that the user wants to go back
-        //pressing the back button will not save the currently running game
-
-        //TODO;
-            //create a representation of the board that we can use as a model for the game
-
         //create model for the game
         game = new Board();
         game.setWhitesTurn(true);
@@ -145,12 +139,12 @@ public class NewGameActivity extends AppCompatActivity {
         //set the listeners for each imageview in the chess board
         TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
         setListenersForTable(table);
-
-
         setUndoAlreadyPressed(false);
         game.setWhiteProposedDraw(false);
         game.setBlackProposedDraw(false);
 
+        //add the start board to the list of boards
+        boards.add(createCopyOfBoard(game));
         //set the function listener for the undo button
         Button undoButton = (Button)findViewById(R.id.undoButton);
         undoButton.setOnClickListener(new View.OnClickListener() {
@@ -167,9 +161,10 @@ public class NewGameActivity extends AppCompatActivity {
                 redrawBoard(table,game);
                 undoCheckHandler();
                 checkmateHandler();
-//                game.setWhitesTurn(!game.isWhitesTurn());
                 setTurn(game.isWhitesTurn());
                 setUndoAlreadyPressed(true);
+                //remove the last board configuration since the user undid the move
+                boards.remove(boards.get(boards.size()-1));
 
             }
         });
@@ -252,8 +247,6 @@ public class NewGameActivity extends AppCompatActivity {
                 }
                 //pick a random move to execute
                 Random rand = new Random();
-                System.out.println("valid moves size");
-                System.out.println(validMoves.size());
                 int randomMoveIndex = rand.nextInt(validMoves.size());
                 //execute the move
                 Move move = validMoves.get(randomMoveIndex);
@@ -270,6 +263,9 @@ public class NewGameActivity extends AppCompatActivity {
                 //redraw the board
                 TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
                 redrawBoard(table, game);
+
+                //add the board config to the boards list
+                boards.add(createCopyOfBoard(game));
 
             }
         });
@@ -332,6 +328,11 @@ public class NewGameActivity extends AppCompatActivity {
     public void saveGame(String trimmedUserInput){
         //TODO
         //check for duplicates in the static array of games
+        //if there is a duplicate game name, throw an alert
+        //if not then create a new game object with the user input, board configs, and the date created
+        //add that game to the static list of games
+        //serialize the list of games
+        //redirect to the saved games view???
 
         return;
     }
@@ -500,6 +501,8 @@ public class NewGameActivity extends AppCompatActivity {
                 setTurn(game.isWhitesTurn());
                 //set undo button pressed
                 setUndoAlreadyPressed(false);
+                //add the board to the boards list
+                boards.add(createCopyOfBoard(game));
 
             }else{
                 Toast.makeText(NewGameActivity.this, "Invalid move!",
