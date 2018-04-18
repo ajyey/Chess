@@ -85,6 +85,16 @@ public class NewGameActivity extends AppCompatActivity {
     private Board previousBoard;
     private Piece previousPieceMoved;
 
+    public boolean isUndoAlreadyPressed() {
+        return undoAlreadyPressed;
+    }
+
+    public void setUndoAlreadyPressed(boolean undoAlreadyPressed) {
+        this.undoAlreadyPressed = undoAlreadyPressed;
+    }
+
+    private boolean undoAlreadyPressed;
+
     public Piece getPreviousPieceMoved() {
         return previousPieceMoved;
     }
@@ -124,18 +134,28 @@ public class NewGameActivity extends AppCompatActivity {
         TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
         setListenersForTable(table);
 
+        setUndoAlreadyPressed(false);
+
         //set the function listener for the undo button
         Button undoButton = (Button)findViewById(R.id.undoButton);
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isUndoAlreadyPressed()){
+                    return;
+                }
+//                if(getPreviousBoard()==null){
+//                    return;
+//                }
                 game = getPreviousBoard();
-                boolean turn = game.isWhitesTurn();
                 TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
                 redrawBoard(table,game);
                 undoCheckHandler();
                 checkmateHandler();
+//                game.setWhitesTurn(!game.isWhitesTurn());
                 setTurn(game.isWhitesTurn());
+                setUndoAlreadyPressed(true);
+
             }
         });
         //set the function listener for the ai button
@@ -143,6 +163,7 @@ public class NewGameActivity extends AppCompatActivity {
         aiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setUndoAlreadyPressed(false);
                 //get the current turn
                 List<Move> validMoves = new ArrayList<>();
                 for(int i = 0;i<8;i++){
@@ -248,7 +269,7 @@ public class NewGameActivity extends AppCompatActivity {
         temp.setWhiteKingRank(board.getWhiteKingRank());
         temp.setWhiteKingFile(board.getWhiteKingFile());
 
-//        temp.setWhitesTurn(board.isWhitesTurn());
+        temp.setWhitesTurn(board.isWhitesTurn());
         temp.setBlackProposedDraw(board.isBlackProposedDraw());
         temp.setWhiteProposedDraw(board.isWhiteProposedDraw());
         return temp;
@@ -387,6 +408,8 @@ public class NewGameActivity extends AppCompatActivity {
                 game.setWhitesTurn(!(game.isWhitesTurn()));
                 //reflect the turn in the UI
                 setTurn(game.isWhitesTurn());
+                //set undo button pressed
+                setUndoAlreadyPressed(false);
 
             }else{
                 Toast.makeText(NewGameActivity.this, "Invalid move!",
