@@ -1,6 +1,7 @@
 package com.example.aj.chess_android;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -318,6 +319,8 @@ public class NewGameActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogBox, int id) {
                                 dialogBox.cancel();
+                                Intent startGamePage = new Intent(NewGameActivity.this, MainActivity.class);
+                                startActivity(startGamePage);
                             }
                         });
 
