@@ -19,6 +19,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.Array;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +87,15 @@ public class NewGameActivity extends AppCompatActivity {
     private int destCol;
     private Board previousBoard;
     private Piece previousPieceMoved;
+    private ArrayList<Board> boards = new ArrayList<>();
+
+    public ArrayList<Board> getBoards() {
+        return boards;
+    }
+
+    public void setBoards(ArrayList<Board> boards) {
+        this.boards = boards;
+    }
 
     public boolean isUndoAlreadyPressed() {
         return undoAlreadyPressed;
