@@ -190,7 +190,7 @@ public abstract class Piece implements Serializable {
                 board.getBoard()[destRank][destFile].setPiece(null);
                 return true;
             }
-        }else{
+        }else if(board.getBoard()[destRank][destFile].getPiece()!=null && !(board.getBoard()[destRank][destFile].getPiece() instanceof King)){
             //the space is not empty
             Piece temp = board.getBoard()[destRank][destFile].getPiece();
             board.getBoard()[destRank][destFile].setPiece(this);

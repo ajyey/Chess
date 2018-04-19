@@ -39,11 +39,13 @@ public class Rook extends Piece implements Serializable{
                 }
                 //check if the space is empty
                 if(board.getBoard()[destRank][destFile].getPiece()==null){
-                    return true;
+                    return this.kingStillInCheckAfterMove(sourceRank,sourceFile,destRank,destFile,board);
                 }
                 //returns false if the the piece in the destination is the same color
-                return !board.getBoard()[destRank][destFile].getPiece().getColor().equals(this.getColor());
-
+                if(board.getBoard()[destRank][destFile].getPiece().getColor().equals(this.getColor())){
+                    return false;
+                }
+                return this.kingStillInCheckAfterMove(sourceRank,sourceFile,destRank,destFile,board);
             }
             //moving right
             if(sourceFile<destFile){
@@ -54,10 +56,12 @@ public class Rook extends Piece implements Serializable{
                 }
                 //check if the space is empty
                 if(board.getBoard()[destRank][destFile].getPiece()==null){
-                    return true;
+                    return this.kingStillInCheckAfterMove(sourceRank,sourceFile,destRank,destFile,board);
                 }
-                //returns false if the the piece in the destination is the same color
-                return !board.getBoard()[destRank][destFile].getPiece().getColor().equals(this.getColor());
+                if(board.getBoard()[destRank][destFile].getPiece().getColor().equals(this.getColor())){
+                    return false;
+                }
+                return this.kingStillInCheckAfterMove(sourceRank,sourceFile,destRank,destFile,board);
             }
         }else if(sourceFile==destFile){
             //moving upward
@@ -69,10 +73,12 @@ public class Rook extends Piece implements Serializable{
                 }
                 //check if the space is empty
                 if(board.getBoard()[destRank][destFile].getPiece()==null){
-                    return true;
+                    return this.kingStillInCheckAfterMove(sourceRank,sourceFile,destRank,destFile,board);
                 }
-                //returns false if the the piece in the destination is the same color
-                return !board.getBoard()[destRank][destFile].getPiece().getColor().equals(this.getColor());
+                if(board.getBoard()[destRank][destFile].getPiece().getColor().equals(this.getColor())){
+                    return false;
+                }
+                return this.kingStillInCheckAfterMove(sourceRank,sourceFile,destRank,destFile,board);
             }
             //moving downward
             if(sourceRank<destRank){
@@ -83,10 +89,13 @@ public class Rook extends Piece implements Serializable{
                 }
                 //check if the space is empty
                 if(board.getBoard()[destRank][destFile].getPiece()==null){
-                    return true;
+                    return this.kingStillInCheckAfterMove(sourceRank,sourceFile,destRank,destFile,board);
+
                 }
-                //returns false if the the piece in the destination is the same color
-                return !board.getBoard()[destRank][destFile].getPiece().getColor().equals(this.getColor());
+                if(board.getBoard()[destRank][destFile].getPiece().getColor().equals(this.getColor())){
+                    return false;
+                }
+                return this.kingStillInCheckAfterMove(sourceRank,sourceFile,destRank,destFile,board);
             }
         }
         return false;

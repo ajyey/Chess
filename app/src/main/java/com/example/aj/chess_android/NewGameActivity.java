@@ -280,14 +280,18 @@ public class NewGameActivity extends AppCompatActivity {
                 Move move = validMoves.get(randomMoveIndex);
                 Piece pieceToMove = game.getBoard()[move.getSourceRank()][move.getSourceFile()].getPiece();
 
-
                 setPreviousBoard(createCopyOfBoard(game));
                 setPreviousPieceMoved(game.getLastPieceMoved());
                 pieceToMove.move(move.getSourceRank(),move.getSourceFile(),move.getDestRank(),move.getDestFile(),game);
+//                game.setWhitesTurn(!(game.isWhitesTurn()));
+                checkHandler();
+//                undoCheckHandler();
+                checkmateHandler();
+//                setTurn(game.isWhitesTurn());
+//                checkHandler();
+//                checkmateHandler();
                 game.setWhitesTurn(!(game.isWhitesTurn()));
                 setTurn(game.isWhitesTurn());
-                checkHandler();
-                checkmateHandler();
                 //redraw the board
                 TableLayout table = (TableLayout) findViewById(R.id.boardLayout);
                 redrawBoard(table, game);
