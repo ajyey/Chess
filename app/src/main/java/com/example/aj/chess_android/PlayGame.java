@@ -55,7 +55,7 @@ public class PlayGame extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
         setGameToPlay((Game)intent.getSerializableExtra("gameObject"));
-        setTitle("Play game: "+gameToPlay.getName());
+        setTitle("Playing game: "+"'"+gameToPlay.getName()+"'");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setCurrentGameBoards(gameToPlay.getBoardConfigurations());
         //set the board UI

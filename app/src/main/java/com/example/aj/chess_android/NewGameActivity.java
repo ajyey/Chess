@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.TimeZone;
 
 import static com.example.aj.chess_android.ListSavedGames.games;
 import static com.example.aj.chess_android.ListSavedGames.readApp;
@@ -396,6 +397,7 @@ public class NewGameActivity extends AppCompatActivity {
         //if not then create a new game object with the user input, board configs, and the date created
         //create a new Date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         String dateAdded = sdf.format(new Date());
         Game newGame = new Game(trimmedUserInput,boards,dateAdded);
         games.add(newGame);

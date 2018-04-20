@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(startGamePage);
             }
         });
+        setTitle("Chess");
     }
 
     @Override

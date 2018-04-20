@@ -46,7 +46,6 @@ public class ListSavedGames extends AppCompatActivity implements Serializable {
         setContentView(R.layout.activity_list_saved_games);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Your Saved Games");
         Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_sort_by_alpha_black_24dp);
         toolbar.setOverflowIcon(drawable);
 
@@ -67,6 +66,11 @@ public class ListSavedGames extends AppCompatActivity implements Serializable {
         GamesAdapter adapter = new GamesAdapter(this,games);
         ListView listView = (ListView)findViewById(R.id.gamesList);
         listView.setAdapter(adapter);
+        if(games.size()==0){
+            setTitle("No saved games yet!");
+        }else{
+            setTitle("Your saved games");
+        }
 
 
         //set listener for listview
