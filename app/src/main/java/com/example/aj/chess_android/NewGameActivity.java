@@ -195,6 +195,10 @@ public class NewGameActivity extends AppCompatActivity {
                     }else{
                         //black has not proposed draw so we set white proposed draw to true
                         game.setWhiteProposedDraw(true);
+                        //TODO:
+                        //toast showing the user that white has proposed a draw
+                        Toast.makeText(NewGameActivity.this, "White has proposed a draw!",
+                                Toast.LENGTH_SHORT).show();
                         //switch turns
                         game.setWhitesTurn(!(game.isWhitesTurn()));
                         setTurn(game.isWhitesTurn());
@@ -209,6 +213,9 @@ public class NewGameActivity extends AppCompatActivity {
                     }else{
                         //white has not proposed draw so we set black proposed draw to true
                         game.setBlackProposedDraw(true);
+                        //toast showing the user that black has proposed a draw
+                        Toast.makeText(NewGameActivity.this, "Black has proposed a draw!",
+                                Toast.LENGTH_SHORT).show();
                         //switch turns
                         game.setWhitesTurn(!(game.isWhitesTurn()));
                         setTurn(game.isWhitesTurn());

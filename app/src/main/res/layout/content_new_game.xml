@@ -485,16 +485,6 @@
         </TableRow>
     </TableLayout>
 
-    <Button
-        android:id="@+id/drawButton"
-        style="@android:style/Widget.Material.Light.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/resignButton"
-        android:layout_alignBottom="@+id/resignButton"
-        android:layout_alignEnd="@+id/boardLayout"
-        android:text="Draw" />
-
     <TextView
         android:id="@+id/currentTurnLabel"
         android:layout_width="wrap_content"
@@ -513,37 +503,6 @@
         android:layout_centerHorizontal="true"
         android:textAppearance="@android:style/TextAppearance.Material" />
 
-    <Button
-        android:id="@+id/resignButton"
-        style="@android:style/Widget.Material.Light.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="11dp"
-        android:layout_marginStart="54dp"
-        android:layout_toEndOf="@+id/currentTurnLabel"
-        android:text="Resign" />
-
-    <Button
-        android:id="@+id/undoButton"
-        style="@android:style/Widget.Material.Light.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/resignButton"
-        android:layout_alignBottom="@+id/resignButton"
-        android:layout_toStartOf="@+id/currentTurn"
-        android:text="Undo" />
-
-    <Button
-        android:id="@+id/aiButton"
-        style="@android:style/Widget.Material.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/undoButton"
-        android:layout_alignBottom="@+id/undoButton"
-        android:layout_toStartOf="@+id/undoButton"
-        android:text="AI" />
-
     <TextView
         android:id="@+id/gameResult"
         android:layout_width="wrap_content"
@@ -552,5 +511,66 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/resignButton"
+            style="@android:style/Widget.Material.Light.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="11dp"
+            android:layout_toEndOf="@+id/currentTurnLabel"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="Resign"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/undoButton"
+            style="@android:style/Widget.Material.Light.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/resignButton"
+            android:layout_alignBottom="@+id/resignButton"
+            android:layout_toStartOf="@+id/currentTurn"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="Undo"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/drawButton"
+            style="@android:style/Widget.Material.Light.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/boardLayout"
+            android:layout_alignTop="@+id/aiButton"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="Draw"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/aiButton"
+            style="@android:style/Widget.Material.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/undoButton"
+            android:layout_alignBottom="@+id/undoButton"
+            android:layout_toStartOf="@+id/undoButton"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="AI"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
 </RelativeLayout>
