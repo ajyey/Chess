@@ -12,11 +12,31 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class PlayGame extends AppCompatActivity {
     private int gameIndex = 0;
+    private Game gameToPlay;
+    private ArrayList<Board> currentGameBoards;
+
+    public Game getGameToPlay() {
+        return gameToPlay;
+    }
+
+    public void setGameToPlay(Game gameToPlay) {
+        this.gameToPlay = gameToPlay;
+    }
+
+    public ArrayList<Board> getCurrentGameBoards() {
+        return currentGameBoards;
+    }
+
+    public void setCurrentGameBoards(ArrayList<Board> currentGameBoards) {
+        this.currentGameBoards = currentGameBoards;
+    }
 
     public int getGameIndex() {
         return gameIndex;
@@ -26,6 +46,7 @@ public class PlayGame extends AppCompatActivity {
         this.gameIndex = gameIndex;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,16 +54,16 @@ public class PlayGame extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
-        Game gameToPlay = (Game)intent.getSerializableExtra("gameObject");
-        System.out.println(gameToPlay.getName());
+        setGameToPlay((Game)intent.getSerializableExtra("gameObject"));
         setTitle("Play game: "+gameToPlay.getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final ArrayList<Board> currentGameBoards = gameToPlay.getBoardConfigurations();
+        setCurrentGameBoards(gameToPlay.getBoardConfigurations());
         //set the board UI
         final TableLayout currentBoardLayout = (TableLayout)findViewById(R.id.playGameBoardLayout);
         //should redraw the board with the start configuration
         redrawBoard(currentBoardLayout,currentGameBoards.get(getGameIndex()));
-
+        //set the turn
+        playGameSetTurn(currentGameBoards.get(getGameIndex()).isWhitesTurn());
 
 
         //attach listeners for forward buttons
@@ -51,6 +72,10 @@ public class PlayGame extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(getGameIndex() == currentGameBoards.size()-1){
+
+                    //TODO: throw a toast to the user saying that they are at the end of this saved game
+                    Toast.makeText(PlayGame.this, "You are at the end of this game!",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //increment the game index
@@ -58,6 +83,10 @@ public class PlayGame extends AppCompatActivity {
                 redrawBoard(currentBoardLayout,currentGameBoards.get(getGameIndex()));
 
                 //handle check and checkmate
+                playGameCheckHandler();
+                playGameCheckmateHandler();
+                //set the text for the current turn
+                playGameSetTurn(currentGameBoards.get(getGameIndex()).isWhitesTurn());
             }
         });
 
@@ -68,12 +97,19 @@ public class PlayGame extends AppCompatActivity {
             public void onClick(View v) {
                 //if the game index is 0 then return since we cant go back any further than the first configuration
                 if(getGameIndex()==0){
+                    //TODO: throw a toast to the user saying that they are at the beginning of this saved game
+                    Toast.makeText(PlayGame.this, "You are at the beginning of this game!",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //decrement the game index
                 setGameIndex(getGameIndex()-1);
                 redrawBoard(currentBoardLayout,currentGameBoards.get(getGameIndex()));
                 //handle check and checkmate
+                playGameCheckHandler();
+                //set the turn text field
+                playGameSetTurn(currentGameBoards.get(getGameIndex()).isWhitesTurn());
+
             }
         });
 
@@ -148,6 +184,39 @@ public class PlayGame extends AppCompatActivity {
 
 
             }
+        }
+    }
+    public void playGameCheckHandler(){
+        TextView textView = (TextView) findViewById(R.id.playGameResult);
+        int index = getGameIndex();
+        Board game = getCurrentGameBoards().get(index);
+        if(game.check("White", game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && game.isWhitesTurn()){
+            //game.setBlackInCheck(true);
+            textView.setText("Black is in check");
+        }else if(game.check("Black",game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && !game.isWhitesTurn()){
+            textView.setText("White is in check");
+        }else{
+            textView.setText(null);
+            return;
+        }
+    }
+    public void playGameCheckmateHandler(){
+        TextView textView = (TextView) findViewById(R.id.playGameResult);
+        int index = getGameIndex();
+        Board game = getCurrentGameBoards().get(index);
+        if(game.checkmate()){
+            String winner = (!game.isWhitesTurn()) ? "White wins!": "Black wins!";
+            textView.setText(winner);
+        }else{
+            textView.setText(null);
+        }
+    }
+    public void playGameSetTurn(boolean isWhitesTurn) {
+        TextView currentTurn = (TextView) findViewById(R.id.playGameCurrentTurn);
+        if (!isWhitesTurn) {
+            currentTurn.setText("Black");
+        } else {
+            currentTurn.setText("White");
         }
     }
 

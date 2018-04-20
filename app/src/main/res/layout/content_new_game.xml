@@ -545,7 +545,7 @@
         android:text="AI" />
 
     <TextView
-        android:id="@+id/playGameResult"
+        android:id="@+id/gameResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

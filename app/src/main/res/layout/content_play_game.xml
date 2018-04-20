@@ -506,25 +506,6 @@
             android:layout_marginTop="18dp"
             android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
-        <ImageButton
-            android:id="@+id/playGameForward"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/playGameResult"
-            android:layout_marginBottom="12dp"
-            android:background="#FAFAFA"
-            app:srcCompat="@drawable/ic_keyboard_arrow_right_black_52dp" />
-
-        <ImageButton
-            android:id="@+id/playGameBackward"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/playGameForward"
-            android:layout_toStartOf="@+id/playGameResult"
-            android:background="#FAFAFA"
-            app:srcCompat="@drawable/ic_keyboard_arrow_left_black_52dp" />
-
         <TextView
             android:id="@+id/playGameInstructions"
             android:layout_width="wrap_content"
@@ -535,22 +516,63 @@
             android:text="Use the arrow keys to play through your game."
             android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
 
-        <TextView
-            android:id="@+id/playGameCurrentTurnLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/boardLayout"
-            android:layout_marginBottom="71dp"
-            android:layout_marginLeft="30dp"
-            android:text="Current Turn:" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true">
 
-        <TextView
-            android:id="@+id/playGameCurrentTurn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/playGameCurrentTurnLabel"
-            android:layout_toStartOf="@+id/playGameResult" />
+            <TextView
+                android:id="@+id/playGameCurrentTurnLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignStart="@+id/boardLayout"
+                android:layout_marginBottom="71dp"
+                android:layout_marginStart="30dp"
+                android:text="Current Turn:" />
+
+            <TextView
+                android:id="@+id/playGameCurrentTurn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/playGameCurrentTurnLabel"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true">
+
+            <ImageButton
+                android:id="@+id/playGameForward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="137dp"
+                android:background="#FAFAFA"
+                app:srcCompat="@drawable/ic_keyboard_arrow_right_black_52dp" />
+
+            <ImageButton
+                android:id="@+id/playGameBackward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/playGameForward"
+                android:layout_marginStart="137dp"
+                android:background="#FAFAFA"
+                app:srcCompat="@drawable/ic_keyboard_arrow_left_black_52dp" />
+        </RelativeLayout>
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

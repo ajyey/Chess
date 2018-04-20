@@ -555,7 +555,7 @@ public class NewGameActivity extends AppCompatActivity {
                 piece.move(sourceRow,sourceCol,row,col,game);
                 redrawBoard(table,game);
                 //check for check
-                TextView textView = (TextView)findViewById(R.id.playGameResult);
+                TextView textView = (TextView)findViewById(R.id.gameResult);
                 //TODO:
                 //call handler for end of game
                 checkHandler();
@@ -581,7 +581,7 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
     public void checkHandler(){
-        TextView textView = (TextView) findViewById(R.id.playGameResult);
+        TextView textView = (TextView) findViewById(R.id.gameResult);
         if(game.check("White", game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && game.isWhitesTurn()){
             game.setBlackInCheck(true);
             textView.setText("Black is in check");
@@ -596,7 +596,7 @@ public class NewGameActivity extends AppCompatActivity {
         }
     }
     public void undoCheckHandler(){
-        TextView textView = (TextView) findViewById(R.id.playGameResult);
+        TextView textView = (TextView) findViewById(R.id.gameResult);
 
         if(game.check("White", game.getWhiteKingRank(),game.getWhiteKingFile(),game.getBlackKingRank(),game.getBlackKingFile()) && !game.isWhitesTurn()){
             game.setBlackInCheck(true);
@@ -615,7 +615,7 @@ public class NewGameActivity extends AppCompatActivity {
         //implement the dialog to ask the user if they want save the game and provide a text input for a name for the game
     
     public void checkmateHandler(){
-        TextView textView = (TextView) findViewById(R.id.playGameResult);
+        TextView textView = (TextView) findViewById(R.id.gameResult);
         if(game.checkmate()){
             String winner = (game.isWhitesTurn()) ? "White wins!": "Black wins!";
             textView.setText(winner);
